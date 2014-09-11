@@ -8,22 +8,31 @@ SRC =		src/Main.cpp \
 OBJ =		$(SRC:.cpp=.o)
 
 CXX =		g++
-CXXFLAGS +=	-std=c++11 -O0
+CXXFLAGS +=	-std=c++11
 CXXFLAGS +=	-Wall -Wextra
 CXXFLAGS +=	-I inc/
 
 $(NAME):	$(OBJ)
-		mkdir -p $(PATH_BIN)
+		@mkdir -p $(PATH_BIN)
 		$(CXX) -o $(PATH_BIN)/$(NAME) $(OBJ) $(LDFLAGS)
 
 all:		$(NAME)
 
+debug:		CXXFLAGS += -O0 -g3 -DDEBUG
+debug:		$(NAME)
+
+thin:		CXXFLAGS += -Os
+thin:		all
+
 clean:
-		rm -vf $(OBJ)
+		@rm -vf $(OBJ)
 
 fclean:		clean
-		rm -vf $(PATH_BIN)/$(NAME)
+		@rm -Rvf $(PATH_BIN)
 
 re:		fclean all
 
-.PHONY:		all clean fclean re
+deploy:		CXXFLAGS += -O3
+deploy:		re
+
+.PHONY:		all debug thin clean fclean re deploy
