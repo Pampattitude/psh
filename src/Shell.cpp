@@ -2,8 +2,8 @@
 
 #include "Shell.hpp"
 
-Shell::Shell()
-  : env_(nullptr), prompt_(), commandLine_()
+Shell::Shell(Terminal &t)
+  : term_(t), env_(nullptr), prompt_(), commandLine_()
 {
 }
 
@@ -21,13 +21,15 @@ bool	Shell::run(int, char **, char **env) {
 	this->env_->setEntry("PROMPT", "$> ");
       this->prompt_.setFormat(this->env_->getEntry("PROMPT"));
 
-      std::cout << this->prompt_.get();
+      this->term_.write(this->prompt_.get());
 
       std::string input = this->commandLine_.getInput();
-      if ("exit" == input)
+      // TMP
+      if ("exit" == input) {
+	this->term_.write(input).write(Terminal::endl);
 	running = false;
-
-      std::cout << input << std::endl;
+      }
+      // EOTMP
     }
     catch (std::exception const &e) {
       std::cerr << e.what() << std::endl;

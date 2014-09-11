@@ -4,10 +4,11 @@
 # include "CommandLine.hpp"
 # include "Environment.hpp"
 # include "Prompt.hpp"
+# include "Terminal.hpp"
 
 class	Shell {
 public:
-  Shell();
+  Shell(Terminal &);
 
   bool	run(int ac, char **av, char **env);
 
@@ -19,6 +20,7 @@ private:
   Shell const	&operator=(Shell const &) = delete;
   Shell		&operator=(Shell &&) = delete;
 
+  Terminal	&term_;
   Environment	*env_;
 
   Prompt	prompt_;

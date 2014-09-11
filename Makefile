@@ -5,7 +5,8 @@ SRC =		src/Main.cpp \
 		src/CommandLine.cpp \
 		src/Environment.cpp \
 		src/Prompt.cpp \
-		src/Shell.cpp
+		src/Shell.cpp \
+		src/Terminal.cpp
 OBJ =		$(SRC:.cpp=.o)
 
 CXX =		g++

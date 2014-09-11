@@ -1,13 +1,15 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "Terminal.hpp"
 #include "Shell.hpp"
 
 int	main(int ac, char **av, char **env) {
   bool	success = false;
 
   try {
-    Shell	sh;
+    Terminal	term;
+    Shell	sh(term);
     success = sh.run(ac, av, env);
   }
   catch (std::exception const &e) {
