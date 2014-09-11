@@ -15,7 +15,9 @@ public:
 
 private:
   Shell(Shell const &) = delete;
+  Shell(Shell &&) = delete;
   Shell const	&operator=(Shell const &) = delete;
+  Shell		&operator=(Shell &&) = delete;
 
   Environment	*env_;
 
