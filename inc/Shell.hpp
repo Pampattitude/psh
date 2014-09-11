@@ -1,6 +1,7 @@
 #ifndef __SHELL_HPP__
 # define __SHELL_HPP__
 
+# include "CommandLine.hpp"
 # include "Environment.hpp"
 # include "Prompt.hpp"
 
@@ -17,7 +18,9 @@ private:
   Shell const	&operator=(Shell const &) = delete;
 
   Environment	*env_;
+
   Prompt	prompt_;
+  CommandLine	commandLine_;
 };
 
 #endif
