@@ -107,6 +107,9 @@ bool	Shell::run(int, char **, char **env) {
     }
   }
 
+  if (this->env_)
+    delete this->env_;
+
   return success;
 }
 
