@@ -14,6 +14,8 @@ CXXFLAGS +=	-std=c++11
 CXXFLAGS +=	-Wall -Wextra
 CXXFLAGS +=	-I inc/
 
+LDFLAGS +=	-L /usr/lib -lboost_filesystem -lboost_system
+
 $(NAME):	$(OBJ)
 		@mkdir -p $(PATH_BIN)
 		$(CXX) -o $(PATH_BIN)/$(NAME) $(OBJ) $(LDFLAGS)
