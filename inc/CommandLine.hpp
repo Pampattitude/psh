@@ -7,9 +7,11 @@
 class CommandLine {
 public:
   std::string	getInput();
+  bool		eof() const;
 
 private:
   std::list<std::string>	previousCommands_;
+  bool				eof_ = false;
 };
 
 #endif

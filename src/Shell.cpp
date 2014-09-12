@@ -1,3 +1,4 @@
+#include <boost/algorithm/string/trim_all.hpp>
 #include <iostream>
 
 #include "Exception.hpp"
@@ -23,11 +24,12 @@ void	exec(std::string const &input, Environment &env) {
   if (!commandTable.size())
     return ;
 
-  char **args = new char*[commandTable.size()];
+  char **args = new char*[commandTable.size() + 1];
   for (int unsigned i = 0 ; commandTable.size() > i ; ++i) {
     args[i] = new char[commandTable[i].length() + 1];
     strcpy(args[i], commandTable[i].c_str());
   }
+  args[commandTable.size()] = nullptr;
 
   std::string	executableFile;
 
@@ -81,6 +83,11 @@ bool	Shell::run(int, char **, char **env) {
       this->term_.write(this->prompt_.get());
 
       std::string input = this->commandLine_.getInput();
+      if (this->commandLine_.eof()) {
+	this->term_.write(Terminal::endl).write("exit").write(Terminal::endl);
+	break ;
+      }
+      boost::trim_all(input);
 
       // TMP
       exec(input, *this->env_);
