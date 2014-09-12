@@ -86,7 +86,7 @@ bool	Shell::run(int, char **, char **env) {
 
       std::string input = this->commandLine_.getInput();
       if (this->commandLine_.eof()) {
-	this->term_.write(Terminal::endl).write("exit").write(Terminal::endl);
+	this->term_.write("^D").write(Terminal::endl).write("exit").write(Terminal::endl);
 	break ;
       }
       boost::trim_all(input);
@@ -113,13 +113,17 @@ bool	Shell::run(int, char **, char **env) {
     }
   }
 
-  if (this->env_)
+  if (this->env_) {
     delete this->env_;
+    this->env_ = nullptr;
+  }
 
   return success;
 }
 
 Shell::~Shell() {
-  if (this->env_)
+  if (this->env_) {
     delete this->env_;
+    this->env_ = nullptr;
+  }
 }
