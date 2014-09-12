@@ -17,12 +17,12 @@ Shell::Shell(Terminal &t)
 }
 
 // TMP
-void	exec(std::string const &input, Environment &env) {
+bool	exec(std::string const &input, Environment &env) {
   std::vector<std::string>	commandTable;
   boost::split(commandTable, input, boost::is_any_of(" \t"));
 
   if (!commandTable.size())
-    return ;
+    return false;
 
   char **args = new char*[commandTable.size() + 1];
   for (int unsigned i = 0 ; commandTable.size() > i ; ++i) {
@@ -62,7 +62,9 @@ void	exec(std::string const &input, Environment &env) {
     throw UntypedException(strerror(errno));
   }
 
-  wait(&childPid);
+  int	status;
+  wait(&status);
+  return EXIT_SUCCESS == status;
 }
 // EOTMP
 
@@ -90,7 +92,11 @@ bool	Shell::run(int, char **, char **env) {
       boost::trim_all(input);
 
       // TMP
-      exec(input, *this->env_);
+      if (!exec(input, *this->env_)) {
+#ifdef DEBUG
+	this->term_.write(std::string("\"") + input + "\" command failed").write(Terminal::endl);
+#endif
+      }
       // EOTMP
 
       // TMP
